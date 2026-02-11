@@ -13,7 +13,7 @@ const Navbar = () => {
             Home
           </Link>
           <Link to="/checkout" className="navbar-link">
-            Card
+            Cart
           </Link>
         </div>
         <div className="navbar-auth">
