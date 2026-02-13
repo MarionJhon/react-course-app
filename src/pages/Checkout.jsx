@@ -1,7 +1,96 @@
 import React from "react";
+import { useCart } from "../context/CartContext";
 
 const Checkout = () => {
-  return <div>Checkout</div>;
+  const {
+    getCartItemsWithProducts,
+    updateQuantity,
+    removeFromCart,
+    getCartTotal,
+    clearCart,
+  } = useCart();
+
+  const cartItems = getCartItemsWithProducts();
+  const total = getCartTotal();
+  function placeOrder() {
+    alert("Successful Order!");
+    clearCart();
+  }
+  return (
+    <div className="page">
+      <div className="container">
+        <h1 className="page-title">Checkout</h1>
+        <div className="checkout-container">
+          <div className="checkout-items">
+            <h2 className="checkout-section-title">Order Summary</h2>
+            {cartItems.map((items) => (
+              <div className="checkout-item" key={items.id}>
+                <img
+                  className="checkout-item-image"
+                  src={items.product.image}
+                  alt={items.product.name}
+                />
+                <div className="checkout-item-details">
+                  <h3 className="checkout-item-name">{items.product.name}</h3>
+                  <p className="checkout-item-price">${items.product.price}</p>
+                  <p></p>
+                </div>
+                <div className="checkout-item-control">
+                  <div className="quantity-controls">
+                    <button
+                      className="quantity-btn"
+                      onClick={() =>
+                        updateQuantity(items.id, items.quantity - 1)
+                      }
+                    >
+                      -
+                    </button>
+                    <span className="quantity-value">{items.quantity}</span>
+                    <button
+                      className="quantity-btn"
+                      onClick={() =>
+                        updateQuantity(items.id, items.quantity + 1)
+                      }
+                    >
+                      +
+                    </button>
+                  </div>
+                  <p className="checkout-item-total">
+                    {(items.product.price * items.quantity).toFixed(2)}
+                  </p>
+                  <button
+                    className="btn btn-secondary btn-small"
+                    onClick={() => removeFromCart(items.id)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="checkout-summary">
+            <h2 className="checkout-section-title">Total</h2>
+            <div className="checkout-total">
+              <p className="checkout-total-label">Subtotal:</p>
+              <p className="checkout-total-value">${total.toFixed(2)}</p>
+            </div>
+            <div className="checkout-total">
+              <p className="checkout-total-label">Total:</p>
+              <p className="checkout-total-value checkout-total-final">
+                ${total.toFixed(2)}
+              </p>
+            </div>
+            <button
+              className="btn btn-primary btn-large btn-block"
+              onClick={placeOrder}
+            >
+              Place Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Checkout;
