@@ -16,6 +16,7 @@ const Home = () => {
           {products.map((items) => (
             <ProductCard
               key={items.id}
+              id={items.id}
               image={items.image}
               name={items.name}
               price={items.price}
